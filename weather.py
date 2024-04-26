@@ -9,8 +9,6 @@ weather = Blueprint("weather", __name__, static_folder="static", template_folder
 @weather.route('/<float:lat>/<float:lon>', methods=['GET'])
 def get_weather(lat, lon):
     # data = request.json
-    lat = 50
-    lon = 50
 
     base_url = "https://api.openweathermap.org/data/2.5/weather?"
     # api_key= "12f24bc0eb39a5fcf4e7b2098200ad92"
@@ -27,6 +25,18 @@ def get_weather(lat, lon):
         temperature = weather_data['main']['temp']
         real_feel = weather_data['main']['feels_like']
         wind_speed = weather_data['wind']['speed']
+        # vis_val = weather_data['visibility']
+        # rain = weather_data['rain']['1h']
+        weather_status = weather_data['weather'][0]['main']
+        # if rain > 2.5:
+        #     weather_status = 'Shower'
+        # elif rain > 10:
+        #     weather_status = 'Rainy'
+        # elif rain > 50:
+        #     weather_status = 'Thunder Storm'
+        # elif vis_val<5000:
+        #     weather_status = 'Cloudy'
+
         aqi = aqi_data['list'][0]['main']['aqi']
 
         # Now you can use these variables as needed
@@ -38,7 +48,8 @@ def get_weather(lat, lon):
                                           "temp": temperature,
                                           "realfeel": real_feel,
                                           "wspeed": wind_speed,
-                                          "aqi": aqi}), 201)
+                                          "aqi": aqi,
+                                           "weather_status": weather_status}), 201)
         return response3
     else:
         return jsonify({'error': 'Failed to fetch weather info'}), response.status_code

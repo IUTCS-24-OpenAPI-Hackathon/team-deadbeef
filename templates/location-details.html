@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-image: url('/static/c.jpg');
+            background-size: cover;
+            background-position: top;
+            background-repeat: no-repeat;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            position: relative; /* Needed for absolute positioning */
+        }
+        .blur-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px); /* Add blur effect */
+            z-index: -1; /* Ensure it's behind other content */
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+        }
+        .widget {
+            background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.1)); /* Gradient background */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Semi-transparent border */
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            backdrop-filter: blur(10px); /* Blur effect */
+            -webkit-backdrop-filter: blur(10px); /* Safari */
+            transition: transform 0.3s ease-in-out; /* Smooth transition */
+        }
+        .widget:hover {
+            transform: translateY(-5px); /* Move up slightly on hover */
+        }
+        .widget p {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <div class="widget">
+            <p>Name: {{var['name']}}</p>
+            <p>City: {{var['city']}}</p>
+            <p>Country: {{var['country']}}</p>
+        </div>
+        <div class="widget">
+            <p>Weather: {{var['weather_status']}}</p>
+            <p>Temperature: {{var['temp']}}</p>
+            <p>Air Quality Index: {{var['aqi']}}</p>
+            <p>Wind Speed: {{var['wspeed']}}</p>
+            <p>Real Feel: {{var['realfeel']}}</p>
+        </div>
+    </div>
+</body>
+</html>
