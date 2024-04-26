@@ -15,7 +15,8 @@ def view_place():
         'lat': data.get('lat'),
         'lon': data.get('lon'),
         'city': data.get('city'),
-        'country': data.get('country')
+        'country': data.get('country'),
+        'type': data.get('type')
     }
     # var['lat'] = data.get('lat')
     # var['lon'] = data.get('lon')
