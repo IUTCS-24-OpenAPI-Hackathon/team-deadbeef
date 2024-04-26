@@ -15,7 +15,7 @@ from find_places import find_places
 # from all_users import all_users
 # from users import users
 # from profile import profile
-# from security import security
+from security import security
 # from rbac import rbac
 # from roles import roles
 from models import db, User
@@ -25,6 +25,7 @@ from models import db, User
 # from unassigned import unassigned
 # from bill_view import bill_view
 # from bills import bills
+from weather import weather
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -47,7 +48,7 @@ app.register_blueprint(dashboard, url_prefix="/dashboard")
 app.register_blueprint(find_places, url_prefix="/find_places")
 # app.register_blueprint(all_users, url_prefix="/all_users")
 # app.register_blueprint(users, url_prefix="/users")
-# app.register_blueprint(security, url_prefix="/security")
+app.register_blueprint(security, url_prefix="/security")
 # app.register_blueprint(profile, url_prefix="/profile")
 # app.register_blueprint(rbac, url_prefix="/rbac")
 # app.register_blueprint(roles, url_prefix="/roles")
@@ -57,6 +58,7 @@ app.register_blueprint(find_places, url_prefix="/find_places")
 # app.register_blueprint(unassigned, url_prefix="/unassigned")
 # app.register_blueprint(bill_view, url_prefix='/bill-view')
 # app.register_blueprint(bills, url_prefix='/bills')
+app.register_blueprint(weather, url_prefix='/weather')
 
 
 with app.app_context():
