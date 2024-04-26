@@ -7,9 +7,9 @@ import requests
 places_view = Blueprint("places_view", __name__, static_folder="static", template_folder="templates")
 
 
-@places_view.route('/<string:name>/<string:city>/<string:country>/<float:lat>/<float:lon>/<string:type>', methods=['GET'])
-def view_place(name, city, country, lat, lon, type):
-    print('a')
+@places_view.route('/<string:name>/<string:city>/<string:country>/<float:lat>/<float:lon>/'
+                   '<string:type>/<float:src_lat>/<float:src_lon>', methods=['GET'])
+def view_place(name, city, country, lat, lon, type, src_lat, src_lon):
     a_quality = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor']
     # data = request.json
     # var = {
@@ -27,7 +27,9 @@ def view_place(name, city, country, lat, lon, type):
         'lon': lon,
         'city': city,
         'country': country,
-        'type': type
+        'type': type,
+        'src_lat': src_lat,
+        'src_lon': src_lon
     }
     print('c')
     # var['lat'] = data.get('lat')

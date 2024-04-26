@@ -47,6 +47,9 @@
             color: #333;
         }
     </style>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css' rel='stylesheet' />
+
 </head>
 <body>
 <script>
@@ -97,6 +100,8 @@
         <p><strong>Name:</strong> {{ var['name'] }}</p>
         <p><strong>City:</strong> {{ var['city'] }}</p>
         <p><strong>Country:</strong> {{ var['country'] }}</p>
+<!--        <p><strong>Country:</strong> {{ var['src_lat'] }}</p>-->
+<!--        <p><strong>Country:</strong> {{ var['src_lon'] }}</p>-->
     </div>
     <div class="widget">
         <p><strong>Weather:</strong> {{ var['weather_status'] }}</p>
@@ -106,5 +111,32 @@
         <p><strong>Wind Speed:</strong> {{ var['wspeed'] }} km/h</p>
     </div>
 </div>
+<!--<div id="map-container">-->
+<!--    <div id="map"></div>-->
+<!--    <div class="leaflet-control coordinate"></div>-->
+<!--</div>-->
+
+<div id='map' style='width: 400px; height: 300px;'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiZmF0ZWVubnIiLCJhIjoiY2x2aDFpbjduMHowczJtbDkzdTF0dmVqNCJ9.HLxc2LODBOJkvAIC9AwBug';
+const map = new mapboxgl.Map({
+	container: 'map', // container ID
+	style: 'mapbox://styles/mapbox/streets-v12', // style URL
+	center: [{{(var['lon'] + var['src_lon'])/2}}, {{(var['lat']+var['src_lat'])/2}}], // starting position [var['lng'], var['lat']]
+	zoom: 12, // starting zoom
+});
+
+<!--        // Add a marker at the intended place-->
+<!--    new mapboxgl.Marker()-->
+<!--        .setLngLat([{{var['lon']}}, {{var['lat']}}])-->
+<!--        .addTo(map);-->
+
+        new mapboxgl.Marker()
+        .setLngLat([{{var['lon']}}, {{var['lat']}}])
+        .addTo(map);
+        new mapboxgl.Marker()
+        .setLngLat([{{var['src_lon']}}, {{var['src_lat']}}])
+        .addTo(map);
+        </script>
 </body>
 </html>
