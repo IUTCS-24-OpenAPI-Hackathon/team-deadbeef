@@ -26,6 +26,7 @@ from models import db, User
 # from bill_view import bill_view
 # from bills import bills
 from weather import weather
+from comments import comments
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -59,6 +60,7 @@ app.register_blueprint(security, url_prefix="/security")
 # app.register_blueprint(bill_view, url_prefix='/bill-view')
 # app.register_blueprint(bills, url_prefix='/bills')
 app.register_blueprint(weather, url_prefix='/weather')
+app.register_blueprint(comments, url_prefix='/comments')
 
 
 with app.app_context():
