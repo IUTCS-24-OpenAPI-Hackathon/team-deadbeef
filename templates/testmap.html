@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nearby Attractions Finder</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALQ-4LUr6mNIndbvdCCB_1hZhtQ_LtOUg&libraries=places"></script>
+</head>
+
+<body onload="initMap()">
+  <h1>Nearby Attractions Finder</h1>
+  <form id="locationForm">
+    <label for="locationInput">Enter Location:</label>
+    <input type="text" class = "form-control" id="locationInput" placeholder="Enter location">
+    <button type="submit" onclick = "getNearbyAttractions()">Find Attractions</button>
+  </form>
+  <div id = "map" style="height:400px;width=80%"></div>
+
+  <script>
+
+    function initMap(){
+
+    map = new google.maps.Map(document.getElementById('map'),
+    {
+        center: {lat:23.8041,lng:90.4152},
+        zoom: 13
+        //mapTypeId:google.maps.MyTypeId.ROADMAP
+    })
+
+    const trafficLayer = new google.maps.TrafficLayer();
+    trafficLayer.setMap(map);
+
+
+      google.maps.event.addListener(map,"click",function(event)
+      {
+          this.setOptions({scrollwheel:true})
+      })
+
+      directionsService = new google.maps.DirectionsService()
+      directionsRenderer = new google.maps.DirectionsRenderer()
+      directionsRenderer.setMap(map)
+
+      sourceAutocomplete = new google.maps.places.Autocomplete(document.getElementById('source') )
+      desAutocomplete = new google.maps.places.Autocomplete(document.getElementById('dest') )
+  }
+
+
+    // Function to fetch nearby attractions
+    function getNearbyAttractions() {
+
+      var location = document.getElementById('locationInput').value
+      var request = {
+        location: location,
+        radius: '5000', // Adjust the radius as needed
+        type: ['tourist_attraction'] // You can specify different types of attractions
+      };
+
+      var service = new google.maps.places.PlacesService(document.createElement('div'));
+
+      service.nearbySearch(request, function(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          displayAttractions(results);
+        } else {
+          alert('Error fetching attractions');
+        }
+      });
+    }
+
+    // Function to display attractions on the page
+    function displayAttractions(attractions) {
+      var attractionsDiv = document.getElementById('attractions');
+      attractionsDiv.innerHTML = '<h2>Nearby Attractions</h2>';
+      attractions.forEach(function(attraction) {
+        var attractionName = attraction.name;
+        var attractionAddress = attraction.vicinity;
+        var rating = attraction.rating || 'N/A';
+        var ratingText = '<span>Rating: ' + rating + '</span>';
+        attractionsDiv.innerHTML += '<div><strong>' + attractionName + '</strong><br>' + attractionAddress + '<br>' + ratingText + '</div>';
+      });
+    }
+
+    // Event listener for form submission
+    document.getElementById('locationForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var location = document.getElementById('locationInput').value;
+      getNearbyAttractions(location);
+    });
+  </script>
+</body>
+</html>

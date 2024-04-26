@@ -63,41 +63,19 @@
         .dont-have-account-link:hover::after {
             opacity: 1;
         }
-/* Custom style for links */
-.forgot-password-link,
-.dont-have-account-link {
-    color: #ffffff;
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
-    transition: font-size 0.3s; /* Add transition for smooth effect */
-}
 
-.forgot-password-link::after,
-.dont-have-account-link::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-    transition: opacity 0.3s;
-    border-radius: 5px;
-}
-
-.forgot-password-link:hover::after,
-.dont-have-account-link:hover::after {
-    opacity: 1;
-}
-
-.forgot-password-link:hover,
-.dont-have-account-link:hover {
-    font-size: 1.2em; /* Increase font size on hover */
-    color: #ffffff; /*
-
-
+        /* Style for email and password inputs */
+        #email,
+        #password {
+            background-color: rgba(255, 255, 255, 0.5); /* Reduced opacity */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+        #email:hover,
+        #email:focus,
+        #password:hover,
+        #password:focus {
+            background-color: rgba(255, 255, 255, 1); /* Full opacity on hover/focus */
+        }
     </style>
 </head>
 <body>

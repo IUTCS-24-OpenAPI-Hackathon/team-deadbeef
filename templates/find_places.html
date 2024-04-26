@@ -12,34 +12,26 @@
     <style>
         /* Additional custom styles */
         body {
-            background-image: url('/static/c.jpg');
-            background-size: cover; /* Cover the entire background */
-            background-position: top; /* Center the background image */
-            background-repeat: no-repeat; /* Do not repeat the background image */
+            background-image: url('/static/e.jpg');
+            background-size: cover;
+            background-position: top;
+            background-repeat: no-repeat;
+            color: #ffffff; /* White text color */
         }
         .container {
-            margin-top: 50px; /* Add space from the top */
+            margin-top: 50px;
         }
         .col-sm-8 {
-            background-color: #f8f9fa; /* Light gray background */
-            border: 2px solid #6c757d; /* Gray border */
-            border-radius: 10px; /* Rounded corners */
-            padding: 20px; /* Add padding */
+            padding: 20px;
         }
-        .btn-custom {
-    background-color: #000000; /* Black button background */
-    border-color: #000000; /* Black button border */
-    color: #28a745; /* Green text color */
-    transition: all 0.3s; /* Add transition for smooth effect */
-}
-
-.btn-custom:hover,
-.btn-custom:focus {
-    background-color: #28a745; /* Light green background on hover */
-    border-color: #28a745; /* Light green border on hover */
-    color: #ffffff; /* White text color on hover */
-    font-size: 1.2em; /* Increase font size on hover */
-}
+        .card {
+            background-color: transparent; /* Remove background color */
+            border: none; /* Remove border */
+            box-shadow: none; /* Remove box shadow */
+        }
+        .card-title {
+            color: #ffffff; /* White font color */
+        }
     </style>
 </head>
 <body>
@@ -47,9 +39,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-8">
-            <div class="card" style="border: 2px solid #6c757d; border-radius: 10px; background-color: #f8f9fa; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+            <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title text-center text-success">Find Attractions</h1>
+                    <h1 class="card-title text-center">Find Attractions</h1>
+                    <script src="test.js"></script>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@ find_places = Blueprint("find_places", __name__, static_folder="static", templat
 @find_places.route('/')
 def find_page_view():
     if 'email' in session:
-        return render_template('find_places.html')
+        return render_template('newtest.html')
 
     else:
         return redirect('/')
