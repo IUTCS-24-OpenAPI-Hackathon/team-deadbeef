@@ -52,7 +52,8 @@ def view_place(name, city, country, lat, lon, type):
         var['temp'] = weather_data.get('temp')
         var['realfeel'] = weather_data.get('realfeel')
         var['wspeed'] = weather_data.get('wspeed')
-        var['aqi'] = weather_data.get('aqi')
+        ew = weather_data.get('aqi')
+        var['aqi'] = a_quality[ew-1]
         var['weather_status'] = weather_data.get('weather_status')
         return render_template('location-details.html', var=var)
 
