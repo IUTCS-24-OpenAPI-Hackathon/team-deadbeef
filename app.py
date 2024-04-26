@@ -29,6 +29,7 @@ from weather import weather
 from comments import comments
 from places_view import places_view
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
