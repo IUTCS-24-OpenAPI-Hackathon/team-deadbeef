@@ -10,7 +10,8 @@ import json
 
 from auth import auth
 from login import login
-# from dashboard import dashboard
+from dashboard import dashboard
+from find_places import find_places
 # from all_users import all_users
 # from users import users
 # from profile import profile
@@ -42,7 +43,8 @@ app.secret_key = 'secret_key'
 
 app.register_blueprint(auth, url_prefix="/auth")
 app.register_blueprint(login, url_prefix="/login")
-# app.register_blueprint(dashboard, url_prefix="/dashboard")
+app.register_blueprint(dashboard, url_prefix="/dashboard")
+app.register_blueprint(find_places, url_prefix="/find_places")
 # app.register_blueprint(all_users, url_prefix="/all_users")
 # app.register_blueprint(users, url_prefix="/users")
 # app.register_blueprint(security, url_prefix="/security")
