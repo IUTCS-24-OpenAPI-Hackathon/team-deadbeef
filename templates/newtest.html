@@ -107,6 +107,24 @@
                         <label for="autocomplete_lat">Enter Latitude:</label>
                         <input type="text" class="form-control" id="autocomplete_lat" placeholder="Enter Latitude">
                     </div>
+
+                    <div class = "form-group">
+            <label for="type">Select Type</label>
+
+            <select id = "type" class="form-control">
+                <option id = 'natural'  value="natural">Nature</option>
+                <option id = 'catering.restaurant'  value="catering.restaurant">Restaurant</option>
+                <option id = 'catering.cafe'  value="catering.cafe">Cafe</option>
+                <option id = 'entertainment'  value="entertainment">Entertainment</option>
+                <option id = 'leisure.playground'  value="leisure.playground">Playground</option>
+                <option id = 'leisure.park'  value="leisure.park">Park</option>
+                <option id = 'tourism'  value="tourism">Tourist Spot</option>
+                <option id = 'beach'  value="beach">Beach</option>
+                <option id = 'sport.stadium'  value="sport.stadium">Stadium</option>
+                <option id = 'commercial.shopping_mall' value="commercial.shopping_mall">Shopping Mall</option>
+
+            </select>
+
                     <div class="form-group">
                         <label for="radius">Radius:</label>
                         <input type="text" class="form-control" id="radius" placeholder="Enter Radius">
@@ -124,12 +142,14 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+
 function searchNearbyPlaces() {
     var long = document.getElementById("autocomplete_long").value;
     var lat = document.getElementById("autocomplete_lat").value;
     var rad = document.getElementById("radius").value;
+    var type = document.getElementById("type").value;
 
-    fetch("https://api.geoapify.com/v2/places?categories=education.school&filter=circle:" + long + "," + lat + "," + rad + "&bias=proximity:90.4093013,23.7272025&lang=en&limit=20&apiKey=3213d1e6f6684c319837771562457aaf")
+    fetch("https://api.geoapify.com/v2/places?categories=" + type + "&filter=circle:" + long + "," + lat + "," + rad + "&bias=proximity:90.4093013,23.7272025&lang=en&limit=20&apiKey=3213d1e6f6684c319837771562457aaf")
         .then(response => response.json())
         .then(result => {
             displayPlaces(result.features);
@@ -142,6 +162,12 @@ function displayPlaces(places) {
     table.innerHTML = "";
 
     places.forEach(place => {
+        var lon = place.properties.lon;
+        var lat = place.properties.lat;
+        var name = place.properties.name;
+        var country = place.properties.country;
+        var city = place.properties.city;
+
         var row = table.insertRow();
         var nameCell = row.insertCell();
         nameCell.innerText = place.properties.name;
@@ -157,7 +183,7 @@ function displayPlaces(places) {
         viewButton.innerText = "View";
         viewButton.classList.add("btn", "btn-custom");
         viewButton.addEventListener("click", function() {
-            console.log("View button clicked for place:", place);
+
         });
         viewCell.appendChild(viewButton);
     });

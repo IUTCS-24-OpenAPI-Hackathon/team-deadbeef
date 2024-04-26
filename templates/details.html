@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+</head>
+<body>
+    <h1>Details</h1>
+
+    <script>
+        // Retrieve latitude and longitude parameters from the URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var latitude = urlParams.get('latitude');
+        var longitude = urlParams.get('longitude');
+
+        // Now you can use latitude and longitude variables as needed
+        console.log("Latitude:", latitude);
+        console.log("Longitude:", longitude);
+    </script>
+</body>
+</html>
