@@ -160,6 +160,7 @@ function searchNearbyPlaces() {
 function displayPlaces(places) {
     var table = document.getElementById("places");
     table.innerHTML = "";
+    var type = document.getElementById("type").value;
 
     places.forEach(place => {
         var lon = place.properties.lon;
@@ -183,7 +184,26 @@ function displayPlaces(places) {
         viewButton.innerText = "View";
         viewButton.classList.add("btn", "btn-custom");
         viewButton.addEventListener("click", function() {
+<!--            var myJSON = {-->
+<!--                  "name": name,-->
+<!--                  "country": country,-->
+<!--                  "city": city,-->
+<!--                  "lon": lon,-->
+<!--                  "lat": lat,-->
+<!--                  "type": type-->
+<!--                };-->
 
+<!--            var jsonString = JSON.stringify(myJSON);-->
+
+<!--            console.log(jsonString);-->
+<!--            fetch('/places_view', {-->
+<!--            method: 'POST',-->
+<!--            body: jsonString,-->
+<!--            headers: {-->
+<!--                'Content-Type': 'application/json'-->
+<!--            }-->
+
+            window.location.href = '/places_view/'+name+'/' + city+'/' + country+'/' + lat+'/' + lon+'/' + type;
         });
         viewCell.appendChild(viewButton);
     });
