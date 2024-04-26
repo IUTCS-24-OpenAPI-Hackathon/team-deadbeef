@@ -69,10 +69,10 @@ def show_ar_add_users():
 
             existing_user = User.query.filter_by(email=new_user.email).first()
 
-            if existing_user or password != password2:
+            if existing_user:
                 response_data = {
                     "success": "False",
-                    "message": "Registration Failed: User Already Exists"
+                    "message": "There's already an account registered with this email"
                 }
 
                 return jsonify(response_data), 500
@@ -80,7 +80,7 @@ def show_ar_add_users():
             elif password != password2:
                 response_data = {
                     "success": "False",
-                    "message": "Registration Failed: Passwords didn't match"
+                    "message": "Passwords didn't match"
                 }
 
                 return jsonify(response_data), 500
@@ -130,8 +130,8 @@ def login():
 
     user = User.query.filter_by(email=email).first()
 
-    # if user and user.check_password(password):
-    if user:
+    if user and user.check_password(password):
+    # if user:
         if user.verified:
             session['email'] = user.email
             session['role'] = user.role_id
@@ -142,7 +142,7 @@ def login():
         else:
             return jsonify({"success": True, "message": "Need to verify account"}), 202
     else:
-        return jsonify({"success": False, "message": "Login Failed"}), 401
+        return jsonify({"success": False, "message": "Email and password didn't match"}), 401
 
 
 @auth.route('/mail', methods=['POST'])

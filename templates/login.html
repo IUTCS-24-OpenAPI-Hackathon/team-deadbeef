@@ -39,9 +39,16 @@
                             <label for="password">Password:</label>
                             <input type="password" class="form-control" id="password" name="password" autocomplete="off" required>
                         </div>
+                        <div id="error_message" class="text-danger"></div> <!-- Add this div for error message -->
+
                         <div class="form-group text-center">
                             <a href="/security/reset-password/initiate">Forgot Password?</a>
                         </div>
+                        <div class="form-group text-center">
+                            <a href="/login/register">Don't have an account?</a>
+                        </div>
+
+                        <small id="error_message2" class="text-danger"></small>
                         <button type="submit" class="btn btn-custom btn-block">Login</button>
                     </form>
                     <div id="message"></div>
@@ -56,36 +63,43 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.getElementById('login-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        var formData = new FormData(this);
+    event.preventDefault();
+    var formData = new FormData(this);
 
-        // Construct a JavaScript object from the FormData
-        var formDataObject = {};
-        formData.forEach(function(value, key) {
-            formDataObject[key] = value;
-        });
-
-        // Stringify the JavaScript object
-        var jsonData = JSON.stringify(formDataObject);
-
-        fetch('/auth/login', {
-            method: 'POST',
-            body: jsonData,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (response.status === 201) {
-                window.location.href = '/dashboard'; // Redirect to dashboard for status 201
-            } else if (response.status === 202) {
-                window.location.href = 'first-login/' + formData.get('email'); // Redirect to login page with email for status 202
-            } else {
-                throw new Error('Unexpected response status: ' + response.status); // Throw an error for unexpected status
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    // Construct a JavaScript object from the FormData
+    var formDataObject = {};
+    formData.forEach(function(value, key) {
+        formDataObject[key] = value;
     });
+
+    // Stringify the JavaScript object
+    var jsonData = JSON.stringify(formDataObject);
+
+    fetch('/auth/login', {
+        method: 'POST',
+        body: jsonData,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.status === 201) {
+            window.location.href = '/dashboard'; // Redirect to dashboard for status 201
+        } else if (response.status === 202) {
+            window.location.href = 'first-login/' + formData.get('email'); // Redirect to login page with email for status 202
+        } else {
+            return response.json(); // Parse JSON response
+        }
+    })
+    .then(data => {
+        if (data && data.message) {
+            document.getElementById('error_message').innerText = data.message; // Display error message on the page
+        } else {
+            document.getElementById('error_message').innerText = 'An unexpected error occurred.'; // Display generic error message if no message is provided
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
 </script>
 </body>
 </html>
