@@ -70,3 +70,15 @@ class Verification(db.Model):
     def update_code(self, code, timestamp=datetime.now()):
         self.code = code
         self.timestamp = timestamp
+
+
+class Comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer,  db.ForeignKey('user.id'), nullable=False)
+    location_id = db.Column(db.Integer, nullable=False)
+    text = db.Column(db.String(100))
+
+    def __init__(self, user_id, location_id, text=""):
+        self.user_id = user_id
+        self.location_id = location_id
+        self.text = text
