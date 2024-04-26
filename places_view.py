@@ -7,16 +7,25 @@ import requests
 places_view = Blueprint("places_view", __name__, static_folder="static", template_folder="templates")
 
 
-@places_view.route('/', methods=['POST'])
-def view_place():
+@places_view.route('/<string:name>/<string:city>/<string:country>/<float:lat>/<float:lon>/<string:type>', methods=['GET'])
+def view_place(name, city, country, lat, lon, type):
+    a_quality = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor']
     data = request.json
+    # var = {
+    #     'name': data.get('name'),
+    #     'lat': data.get('lat'),
+    #     'lon': data.get('lon'),
+    #     'city': data.get('city'),
+    #     'country': data.get('country'),
+    #     'type': data.get('type')
+    # }
     var = {
-        'name': data.get('name'),
-        'lat': data.get('lat'),
-        'lon': data.get('lon'),
-        'city': data.get('city'),
-        'country': data.get('country'),
-        'type': data.get('type')
+        'name': name,
+        'lat': lat,
+        'lon': lon,
+        'city': city,
+        'country': country,
+        'type': type
     }
     # var['lat'] = data.get('lat')
     # var['lon'] = data.get('lon')
