@@ -12,7 +12,10 @@
     <style>
         /* Additional custom styles */
         body {
-            background-color: #eafaf1; /* Soothing green background */
+            background-image: url('/static/c.jpg');
+            background-size: cover; /* Cover the entire background */
+            background-position: top; /* Center the background image */
+            background-repeat: no-repeat; /* Do not repeat the background image */
         }
         .container {
             margin-top: 50px; /* Add space from the top */
@@ -24,14 +27,19 @@
             padding: 20px; /* Add padding */
         }
         .btn-custom {
-            background-color: #000000; /* Black button background */
-            border-color: #000000; /* Black button border */
-            color: #28a745; /* Green text color */
-        }
-        .btn-custom:hover {
-            background-color: #333333; /* Darker black on hover */
-            border-color: #333333; /* Darker black on hover */
-        }
+    background-color: #000000; /* Black button background */
+    border-color: #000000; /* Black button border */
+    color: #28a745; /* Green text color */
+    transition: all 0.3s; /* Add transition for smooth effect */
+}
+
+.btn-custom:hover,
+.btn-custom:focus {
+    background-color: #28a745; /* Light green background on hover */
+    border-color: #28a745; /* Light green border on hover */
+    color: #ffffff; /* White text color on hover */
+    font-size: 1.2em; /* Increase font size on hover */
+}
     </style>
 </head>
 <body>
@@ -39,9 +47,6 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-8">
-            <h2>
-                Dashboard
-            </h2>
 
             <a href="/find_places" class="btn btn-custom">Explore Nearby Places</a>
 
