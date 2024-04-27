@@ -82,3 +82,21 @@ class Comments(db.Model):
         self.user_id = user_id
         self.location_id = location_id
         self.text = text
+
+
+class Place(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    lat = db.Column(db.Float, unique=True)
+    lon = db.Column(db.Float)
+    name = db.Column(db.String, nullable=False)
+    city = db.Column(db.String)
+    country = db.Column(db.String)
+    type = db.Column(db.String)
+
+    def __init__(self, lat, lon, name, type, city, country):
+        self.lat = lat
+        self.lon = lon
+        self.name = name
+        self.type = type
+        self.city = city
+        self.country = country

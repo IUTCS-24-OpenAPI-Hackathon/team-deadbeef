@@ -97,8 +97,7 @@
         <div class="col-sm-8">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title text-center">Search nearby places by radius</h1>
-                        <button class="btn btn-custom btn-block" onclick="SearchByCity()">Search By City</button>
+                    <h1 class="card-title text-center">Add a place</h1>
                     <div id="map"></div>
                     <div class="form-group">
                         <label for="autocomplete_long">Enter Longitude:</label>
@@ -107,12 +106,23 @@
                     <div class="form-group">
                         <label for="autocomplete_lat">Enter Latitude:</label>
                         <input type="text" class="form-control" id="autocomplete_lat" placeholder="Enter Latitude">
-                    </div>
+                    </div> </br>
                     <div class="form-group">
                         <button class="btn btn-custom btn-block" onclick="findMyCoOrds()">Use GPS Location Instead</button>
                     </div>
-
-
+                    </br>
+                    <div class="form-group">
+                        <label for="autocomplete_lat">Enter Name:</label>
+                        <input type="text" class="form-control" id="autocomplete_name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="autocomplete_lat">Enter City:</label>
+                        <input type="text" class="form-control" id="autocomplete_city" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label for="autocomplete_lat">Enter Country:</label>
+                        <input type="text" class="form-control" id="autocomplete_country" placeholder="country">
+                    </div>
 
                     <div class = "form-group">
             <label for="type">Select Type</label>
@@ -131,16 +141,13 @@
 
             </select>
 
-                    <div class="form-group">
-                        <label for="radius">Radius:</label>
-                        <input type="text" class="form-control" id="radius" placeholder="Enter Radius">
-                    </div>
                         <div class="form-group">
 <!--                            <a href="/login/register" class="dont-have-account-link">Don't have an account?</a>-->
                     </div><br><br>
-                    <button class="btn btn-custom btn-block" onclick="searchNearbyPlaces()">Generate List</button>
+                    <button class="btn btn-custom btn-block" onclick="addPlace()">Add Place</button>
+                        <div id="responseMessage"></div>
                     <br><br>
-                    <table class="table table-bordered table-striped" id="places"></table>
+<!--                    <table class="table table-bordered table-striped" id="places"></table>-->
                 </div>
 
                 </div>
@@ -154,6 +161,43 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+     function addPlace() {
+        var long = src_lon = document.getElementById("autocomplete_long").value;
+        var lat = src_lat = document.getElementById("autocomplete_lat").value;
+        var name = document.getElementById("autocomplete_name").value;
+        var city = document.getElementById("autocomplete_city").value;
+        var country = document.getElementById("autocomplete_country").value;
+        var type = document.getElementById("type").value;
+
+        // Prepare the data to send in the request body
+        var data = {
+            lat: lat,
+            lon: long,
+            name: name,
+            city: city,
+            country: country,
+            type: type
+        };
+
+        // Send a POST request to '/add-place'
+        fetch('/add-place', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            // Handle the response
+            // Add the response message to the bottom of the form
+<!--            var messageDiv = document.createElement('div');-->
+            responseMessage.textContent = result.message; // Assuming the response contains a 'message' property
+             // Append the message to the body, you can adjust the parent element as needed
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
     let src_lat;
     let src_lon;
 

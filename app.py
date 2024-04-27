@@ -28,6 +28,7 @@ from models import db, User
 from weather import weather
 from comments import comments
 from places_view import places_view
+from add_place import add_place
 
 
 app = Flask(__name__)
@@ -64,6 +65,7 @@ app.register_blueprint(security, url_prefix="/security")
 app.register_blueprint(weather, url_prefix='/weather')
 app.register_blueprint(comments, url_prefix='/comments')
 app.register_blueprint(places_view, url_prefix='/places_view')
+app.register_blueprint(add_place, url_prefix='/add-place')
 
 
 with app.app_context():
