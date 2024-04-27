@@ -1,50 +1,240 @@
-<html>
-  <head>
-    <title>Leaflet + Raster Map tiles</title>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"
-    />
-
-    <style id="compiled-css" type="text/css">
-      html,
-      body,
-      #my-map {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-      }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geoapify Autocomplete API Example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('/static/e.jpg');
+            background-size: cover;
+            background-position: top;
+            background-repeat: no-repeat;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        .card {
+            border: none;
+            background-color: transparent;
+            box-shadow: none;
+        }
+        .card-title {
+            color: #ffffff;
+        }
+        .btn-custom {
+            background-color: #000000;
+            border-color: #000000;
+            color: #28a745;
+            transition: all 0.3s;
+        }
+        .btn-custom:hover,
+        .btn-custom:focus {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: #ffffff;
+            font-size: 1.2em;
+        }
+        /* Custom style for links */
+        .forgot-password-link,
+        .dont-have-account-link {
+            color: #ffffff;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+        }
+        .forgot-password-link::after,
+        .dont-have-account-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+            transition: opacity 0.3s;
+            border-radius: 5px;
+        }
+        .forgot-password-link:hover::after,
+        .dont-have-account-link:hover::after {
+            opacity: 1;
+        }
+        /* Style for email and password inputs */
+        #search-input,
+        #places-table th,
+        #places-table td {
+            background-color: rgba(255, 255, 255, 0.5); /* Reduced opacity */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+        #search-input:hover,
+        #search-input:focus,
+        #places-table th:hover,
+        #places-table th:focus,
+        #places-table td:hover,
+        #places-table td:focus {
+            background-color: rgba(255, 255, 255, 1); /* Full opacity on hover/focus */
+        }
+        /* Style for the table */
+        #places-table {
+            background-color: rgba(255, 255, 255, 0.8); /* Increased opacity */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+        #places-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly increased opacity on hover */
+        }
     </style>
-  </head>
-  <body data-new-gr-c-s-check-loaded="14.991.0" data-gr-ext-installed="">
-    <div id="my-map"></div>
-    <script type="text/javascript">
-      var map = L.map("my-map").setView([48.1500327, 11.5753989], 10);
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Search In Area</h1>
+                        <input type="text" class="form-control" id="search-input" placeholder="Enter area...">
+                        <div id="search-results"></div>
+                        <div class="form-group mt-3">
+                            <label for="type">Select Type</label>
+                            <select id="type" class="form-control">
+                                <option id="natural" value="natural">Nature</option>
+                                <option id="catering.restaurant" value="catering.restaurant">Restaurant</option>
+                                <option id="catering.cafe" value="catering.cafe">Cafe</option>
+                                <option id="entertainment" value="entertainment">Entertainment</option>
+                                <option id="leisure.playground" value="leisure.playground">Playground</option>
+                                <option id="leisure.park" value="leisure.park">Park</option>
+                                <option id="tourism" value="tourism">Tourist Spot</option>
+                                <option id="beach" value="beach">Beach</option>
+                                <option id="sport.stadium" value="sport.stadium">Stadium</option>
+                                <option id="commercial.shopping_mall" value="commercial.shopping_mall">Shopping Mall</option>
+                            </select>
+                        </div><br>
+                        <button class="btn btn-custom btn-block" onclick="searchByCities()">Search</button><br>
+                        <table class="table table-bordered table-striped mt-3" id="places-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Area</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let selectedPlaceId;
+    let src_lat;
+    let src_lon;
+    let type;
 
-      // Get your own API Key on https://myprojects.geoapify.com
-      var myAPIKey = "3213d1e6f6684c319837771562457aaf";
 
-      // Retina displays require different mat tiles quality
-      var isRetina = L.Browser.retina;
+    // Function to fetch autocomplete suggestions from Geoapify Autocomplete API
+    function fetchAutocompleteSuggestions(query) {
+        const apiKey = '3213d1e6f6684c319837771562457aaf'; // Replace 'YOUR_API_KEY' with your actual API key
+        const endpoint = `https://api.geoapify.com/v1/geocode/autocomplete?text=${query}&apiKey=${apiKey}`;
 
-      var baseUrl =
-        "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey={apiKey}";
-      var retinaUrl =
-        "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}@2x.png?apiKey={apiKey}";
+        return fetch(endpoint)
+            .then(response => response.json())
+            .then(data => data.features.map(feature => ({
+                formatted: feature.properties.formatted,
+                placeId: feature.properties.place_id,
+                src_lat: feature.properties.lat,
+                src_lon: feature.properties.lon
+            })));
+    }
 
-      // Add map tiles layer. Set 20 as the maximal zoom and provide map data attribution.
-      L.tileLayer(isRetina ? retinaUrl : baseUrl, {
-        attribution:
-          'Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | © OpenStreetMap <a href="https://www.openstreetmap.org/copyright" target="_blank">contributors</a>',
-        apiKey: myAPIKey,
-        maxZoom: 20,
-        id: "osm-bright",
-      }).addTo(map);
-    </script>
-  </body>
+    // Function to display autocomplete suggestions
+    function displaySuggestions(suggestions) {
+        const resultsList = document.getElementById('search-results');
+        resultsList.innerHTML = '';
+
+        suggestions.forEach(suggestion => {
+            const listItem = document.createElement('div');
+            listItem.textContent = suggestion.formatted;
+            listItem.classList.add('suggestion');
+            listItem.addEventListener('click', () => {
+                document.getElementById('search-input').value = suggestion.formatted;
+                resultsList.innerHTML = '';
+                selectedPlaceId = suggestion.placeId;
+                src_lat = suggestion.src_lat;
+                src_lon = suggestion.src_lon;
+            });
+            resultsList.appendChild(listItem);
+        });
+    }
+
+    // Function to handle input change and fetch autocomplete suggestions
+    function handleInputChange(event) {
+        const query = event.target.value.trim();
+
+        if (query.length > 0) {
+            fetchAutocompleteSuggestions(query)
+                .then(displaySuggestions)
+                .catch(error => console.error('Error fetching suggestions:', error));
+        } else {
+            const resultsList = document.getElementById('search-results');
+            resultsList.innerHTML = '';
+        }
+    }
+
+    // Function to search for cities using the selectedPlaceId
+    function searchByCities() {
+        if (!selectedPlaceId) {
+            console.error('No place selected.');
+            return;
+        }
+
+        type = document.getElementById("type").value;
+
+        const apiKey = '3213d1e6f6684c319837771562457aaf'; // Replace 'YOUR_API_KEY' with your actual API key
+        const endpoint = `https://api.geoapify.com/v2/places?categories=${type}&filter=place:${selectedPlaceId}&limit=500&apiKey=${apiKey}`;
+
+        fetch(endpoint)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Search by Cities API Response:', data);
+                displayPlaces(data.features);
+            })
+            .catch(error => console.error('Error searching by cities:', error));
+    }
+
+    // Function to display places in a table
+    function displayPlaces(places) {
+        const tableBody = document.querySelector('#places-table tbody');
+        tableBody.innerHTML = '';
+
+        places.forEach(place => {
+            const row = tableBody.insertRow();
+            row.innerHTML = `
+                <td>${place.properties.name}</td>
+                <td>${place.properties.city}</td>
+                <td><button class="btn btn-custom" onclick="viewPlace('${place.properties.name}', '${place.properties.city}', '${place.properties.country}', '${place.properties.lat}', '${place.properties.lon}')">View</button></td>
+            `;
+        });
+    }
+
+    // Function to view a place
+
+    function viewPlace(name, city, country, lat, lon) {
+        console.log('Viewing:', name, city);
+        // Add your view place functionality here
+        console.log(type);
+        window.location.href = '/places_view/'+name+'/' + city+'/' + country+'/' + lat+'/' + lon+'/' + type + '/' + src_lat + '/' + src_lon;
+    }
+
+    // Attach input event listener to the search input
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', handleInputChange);
+</script>
+</body>
 </html>
