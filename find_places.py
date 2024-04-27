@@ -24,15 +24,15 @@ def find_city_view():
         return redirect('/')
 
 
-@find_places.route('/local')
-def find_places():
-    data = request.json
-    lat = data.get('lat')
-    lon = data.get('lon')
-    radius = data.get('radius')
-    places = Place.query.filter_by().all()
-    places_result = []
-    for place in places:
-        if place.calculate_distance(lat=lat, lon=lon) <= radius:
-            places_result.insert(place)
+# @find_places.route('/local')
+# def find_places():
+#     data = request.json
+#     lat = data.get('lat')
+#     lon = data.get('lon')
+#     radius = data.get('radius')
+#     places = Place.query.filter_by().all()
+#     places_result = []
+#     for place in places:
+#         if place.calculate_distance(lat=lat, lon=lon) <= radius:
+#             places_result.insert(place)
 
