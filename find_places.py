@@ -12,3 +12,11 @@ def find_page_view():
     else:
         return redirect('/')
 
+@find_places.route('/cities/')
+def find_city_view():
+    if 'email' in session:
+        return render_template('citytest.html')
+
+    else:
+        return redirect('/')
+
