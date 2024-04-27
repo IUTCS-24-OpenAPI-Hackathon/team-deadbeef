@@ -24,6 +24,11 @@
             transition: all 0.3s;
             padding: 15px 30px; /* Increase button padding */
             font-size: 1.5em; /* Increase button font size */
+            margin-right: 20px; /* Add more space between buttons */
+            margin-bottom: 10px; /* Add some space below buttons */
+        }
+        .btn-custom:last-child {
+            margin-right: 0; /* Remove margin from the last button to avoid extra space */
         }
         .btn-custom:hover,
         .btn-custom:focus {
@@ -39,15 +44,20 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-8">
-
-            <a href="/find_places" class="btn btn-custom">Explore Nearby Places</a>
-            <a href="/find_places/cities" class="btn btn-custom">Explore Cities</a>
-
-        </div>
-        <div class="col-sm-8">
-
-            <a href="/add-place/view" class="btn btn-custom">Add a new Place</a>
-
+            <div class="row">
+                <div class="col">
+                    <a href="/find_places" class="btn btn-custom">Explore Nearby Places</a>
+                </div>
+                <div class="col">
+                    <a href="/find_places/cities" class="btn btn-custom">Explore Cities</a>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <a href="/add-place/view" class="btn btn-custom">Add New Location</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
