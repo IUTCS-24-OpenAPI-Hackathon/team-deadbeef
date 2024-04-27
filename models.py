@@ -3,6 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, time
 import json
 import re
+import math
 
 # from app import db
 db = SQLAlchemy()
@@ -100,3 +101,20 @@ class Place(db.Model):
         self.type = type
         self.city = city
         self.country = country
+
+    def calculate_distance(self, lat, lon):
+        R = 6371.0  # Radius of the Earth in kilometers
+        lat1 = math.radians(lat)
+        lon1 = math.radians(lon)
+        lat2 = math.radians(self.lat)
+        lon2 = math.radians(self.lon)
+
+        dlat = lat2 - lat1
+        dlon = lon2 - lon1
+
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        distance = R * c
+
+        return distance
+    
