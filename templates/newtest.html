@@ -176,6 +176,8 @@
     let src_lat;
     let src_lon;
     let type;
+    let radius;
+    let category
 
     const findMyCoOrds = () => {
         const status = document.querySelector('.status');
@@ -208,7 +210,7 @@ function searchNearbyPlaces() {
     var long = src_lon = document.getElementById("autocomplete_long").value;
 
     var lat = src_lat = document.getElementById("autocomplete_lat").value;
-    var rad = document.getElementById("radius").value;
+    var rad = radius = document.getElementById("radius").value;
     type = document.getElementById("type").value;
 
     fetch("https://api.geoapify.com/v2/places?categories=" + type + "&filter=circle:" + long + "," + lat + "," + rad + "&bias=proximity:90.4093013,23.7272025&lang=en&limit=20&apiKey=3213d1e6f6684c319837771562457aaf")
@@ -216,9 +218,42 @@ function searchNearbyPlaces() {
         .then(result => {
             displayPlaces(result.features);
             displayMap(result.features);
+            searchLocalPlaces();
         })
         .catch(error => console.log('error', error));
 }
+function searchLocalPlaces() {
+    // Get input values
+    const lat = src_lat;
+    const lon = src_lon;
+
+    // Construct the request body
+    const requestData = {
+        lat: lat,
+        lon: lon,
+        radius: radius
+        type: type
+    };
+
+    // Make POST request
+    fetch('/find_places/local', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (response.status === 201) {
+            console.log('success');
+        } else {
+            console.error('Failed to create resource');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
 
 <!--trying to add display-->
 
@@ -300,6 +335,39 @@ function displayMap(places)
 
 function displayPlaces(places) {
     var table = document.getElementById("places");
+    table.innerHTML = "";
+    var type = document.getElementById("type").value;
+
+    places.forEach(place => {
+        var lon = place.properties.lon;
+        var lat = place.properties.lat;
+        var name = place.properties.name;
+        var country = place.properties.country;
+        var city = place.properties.city;
+
+        var row = table.insertRow();
+        var nameCell = row.insertCell();
+        nameCell.innerText = place.properties.name;
+
+        var countryCell = row.insertCell();
+        countryCell.innerText = place.properties.country;
+
+        var cityCell = row.insertCell();
+        cityCell.innerText = place.properties.city;
+
+        var viewCell = row.insertCell();
+        var viewButton = document.createElement("button");
+        viewButton.innerText = "View";
+        viewButton.classList.add("btn", "btn-custom");
+        viewButton.addEventListener("click", function() {
+
+            window.location.href = '/places_view/'+name+'/' + city+'/' + country+'/' + lat+'/' + lon+'/' + type + '/' + src_lat + '/' + src_lon;
+        });
+        viewCell.appendChild(viewButton);
+    });
+}
+    function displayPlaces2(places2) {
+    var table = document.getElementById("places2");
     table.innerHTML = "";
     var type = document.getElementById("type").value;
 
