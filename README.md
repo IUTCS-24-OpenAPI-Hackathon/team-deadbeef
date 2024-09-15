@@ -9,7 +9,7 @@ Users can search for attractions by specifying a city or a geographical area.
 
 ## City Component View
 Detailed view of a city, including important components like buildings, cafes, and other points of interest.
-[Nothing](./images/find_places.png)
+![Nothing](./images/find_places.png)
 
 
 
