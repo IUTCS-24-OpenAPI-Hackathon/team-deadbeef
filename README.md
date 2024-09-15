@@ -1,25 +1,25 @@
 ﻿# Team-deadbeef
  
-##Touro: Nearby Attractions Tracker
+## Touro: Nearby Attractions Tracker
 Touro is a web-based application designed to help users discover nearby attractions across various regions of the country. It integrates area-based services, providing information such as weather indices, socio-economic factors, and more. Users can search for attractions based on location, view city details, and plan tours effectively.
 
-##Features
+## Features
 Location-Based Attraction Search
 Users can search for attractions by specifying a city or a geographical area.
 
-##City Component View
+## City Component View
 Detailed view of a city, including important components like buildings, cafes, and other points of interest.
-<iframe width="560" height="315" src="./images/find_places.png" frameborder="0" allowfullscreen></iframe>
+[Nothing](./images/find_places.png)
 
 
 
-##Weather and Area Information
+## Weather and Area Information
 Get real-time weather details and important information related to the area’s components.
 
-##Tour Planning and Travel Suggestions
+## Tour Planning and Travel Suggestions
 Users can plan tours, get travel suggestions, and add new area details along with reviews of attractions.
 
-##Technology Stack
+## Technology Stack
 **Frontend:**
 
 **HTML, Vanilla CSS:** For structuring and styling the website.
@@ -33,7 +33,7 @@ Users can plan tours, get travel suggestions, and add new area details along wit
 - **MapBox:** For map integration, including initialization and custom markers.
 - **OpenWeatherMap:** For fetching real-time weather data of the clicked location.
 - 
-##Key Functionalities
+## Key Functionalities
 
 **Search by City:**
 Users can perform a targeted search for attractions within a specific city or area.
